@@ -400,7 +400,7 @@ namespace train_op
             cout<<price<<" ";
             price+=_train_price.a[i];
             if (i==n-1){cout<<'x';}
-            else if (released){cout<<_train.seats;}
+            else if (!released){cout<<_train.seats;}
             else
             {
                 cout<<_train_seat.a[i];
