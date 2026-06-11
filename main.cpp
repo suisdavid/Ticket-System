@@ -579,7 +579,7 @@ namespace request_op
         pair<int,date>departure=_train_station_map.min_departure;
         int addition=day-departure.first;
         if (addition<0||addition>_train_station_map.len){response(-1);return;}
-        
+        if (num>train_database::query_seat(trid,maxday,0,1)){response(-1);return;}//大于总票数，直接寄
         pair<int,date>arrival=train_database::query_train_station_map(trid,tid).min_arrival;
         departure.first+=addition;arrival.first+=addition;
         int seat=train_database::query_seat(trid,addition,l,r),price=train_database::query_price(trid,l,r);
