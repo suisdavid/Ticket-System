@@ -4,3 +4,10 @@ code
 *.log
 *.py
 bpt.cpp
+testcases/
+.vscode/
+CMakeCache.txt
+CMakeFiles/
+CMakeCache.txt
+Makefile
+*.cmake

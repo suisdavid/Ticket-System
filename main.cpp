@@ -6,8 +6,6 @@
 #include "vector.hpp"
 #include <iostream>
 #include <fstream>
-#include <format>
-#include <time.h>
 using std::cin;
 using std::cout;
 using std::endl;
