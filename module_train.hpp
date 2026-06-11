@@ -170,7 +170,18 @@ namespace train_database
         pair<bool,train>u=db.findone(_hash(train_id));
         if (u.first&&!released(train_id))
         {
-            db.erase(_hash(train_id),u.second);return 0;
+            train &_train=u.second;
+            train_price temp_price;
+            train_station_map temp_map;
+            dbpr.erase(_train.uid,temp_price);
+            int n=_train.station_num;
+            for (int j=0;j<n;j++)
+            {
+                long long uid=((__int128)_train.station_uid[j]*PW+_train.uid)%mod;
+                dbm.erase(uid,temp_map);
+            }
+            db.erase(_train.uid,_train);
+            return 0;
         }
         return -1;
     }

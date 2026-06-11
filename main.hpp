@@ -191,21 +191,18 @@ struct train//854
         start=_start;len=_len;
         type=_type;
     }
-    void print()
-    {
-        cout<<trainid<<" "<<type<<" "<<station_num<<" "<<start<<" "<<len<<" "<<seats<<endl;
-    }
+
     bool const operator <(const train &rhs) const
     {
         return uid<rhs.uid;
     }
     bool const operator ==(const train &rhs) const
     {
-        return uid<rhs.uid;
+        return uid==rhs.uid;
     }
     bool const operator !=(const train &rhs) const
     {
-        return uid<rhs.uid;
+        return uid!=rhs.uid;
     }
     bool const operator >(const train &rhs) const
     {
@@ -272,11 +269,11 @@ struct train_da//69
     }
     bool const operator ==(const train_da &rhs) const
     {
-        return uid<rhs.uid;
+        return uid==rhs.uid;
     }
     bool const operator !=(const train_da &rhs) const
     {
-        return uid<rhs.uid;
+        return uid!=rhs.uid;
     }
     bool const operator >(const train_da &rhs) const
     {
