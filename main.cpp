@@ -510,7 +510,6 @@ namespace train_op
         long long sid=_hash(s),tid=_hash(t);
         vector<long long>trains1=train_database::get_all_trains(sid);int sz=trains1.size();
         transfer_ans ans=transfer_ans();bool found=0;
-        //cout<<"TRANSFER"<<" "<<sz<<endl;
         for (int i=0;i<sz;i++)
         {
             long long trid1=trains1[i];train _train=train_database::get_train(trid1);

@@ -98,7 +98,7 @@ class MemoryRiver//位置0存储root下标,1存储结点下标使用量
         }
 };
 const int base = 257;
-const long long mod=10000000000000061;
+const long long mod = 1000000000000091;
 void print(long long val)
 {
     if (val<0){putchar('-');print(-val);return;}
@@ -291,13 +291,9 @@ class BPT
                     else
                     {
                         node_merge(pre,p);pre.is_data=p.is_data;
-                        if (p.is_data&&id>1)
-                        {
-                            node prepre;f.read(prepre,father.child[id-2]);prepre.is_data=u;f.update(prepre,father.child[id-2]);
-                        }
-                        f.update(pre,u);
-                        father.val[id]=pre.val[0];
-                        return id-1;
+                        f.update(pre,father.child[id-1]);
+                        father.val[id-1]=pre.val[0];
+                        return id;
                     }
                 }
                 else{return -1;}
@@ -336,7 +332,7 @@ class BPT
                     }
                     return try_del(u,make_pair(-2-res,T()),fa,child_id,p,father);
                 }
-                else if (p.val[id]!=temp1||p.val[id+1]!=temp2){f.update(p,u);father.val[child_id]=p.val[0];}
+                else{f.update(p,u);father.val[child_id]=p.val[0];}
                 return -1;
             }
         }
