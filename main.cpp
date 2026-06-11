@@ -510,6 +510,7 @@ namespace train_op
         long long sid=_hash(s),tid=_hash(t);
         vector<long long>trains1=train_database::get_all_trains(sid);int sz=trains1.size();
         transfer_ans ans=transfer_ans();bool found=0;
+        //cout<<"TRANSFER"<<" "<<sz<<endl;
         for (int i=0;i<sz;i++)
         {
             long long trid1=trains1[i];train _train=train_database::get_train(trid1);
@@ -522,7 +523,7 @@ namespace train_op
             pair<int,date>departure1=make_pair(day,m1.min_departure.second);
             train_price _train_price=train_database::query_all_prices(trid1);
             int startid=j;j++;
-            while (j<n)
+            for (;j<n;j++)
             {
                 price+=_train_price.a[j-1];
                 long long midid=_train.station_uid[j];
