@@ -110,7 +110,9 @@ namespace train_database
     int get_station_id(long long trainid,long long station_id)
     {
         long long uid=((__int128)station_id*PW+trainid)%mod;
-        return dbm.findone(uid).second.id;
+        pair<bool,train_station_map>res=dbm.findone(uid);
+        if (res.first==0){return -1;}
+        return res.second.id;
     }
 
     string get_station_name(long long sid)

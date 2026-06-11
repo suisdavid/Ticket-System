@@ -9,13 +9,20 @@ namespace request_database
     database::BPT<request,23>dbr("database_request.out");
     database::BPT<int,251>dbu("database_user_request_cnt.out");
     database::BPT<pending_request,101>db_pending("database_pending_list.out");
+    
+    int query_user_request_cnt(string username)
+    {
+        pair<int,int>res=dbu.findone(_hash(username));
+        if (res.first==0){return 0;}
+        return res.second;
+    }
+
     void add(string username,request& _request)
     {
         long long uid=_hash(username);
-        pair<int,int>res=dbu.findone(uid);
-        int cnt=(res.first==0?0:res.second);
+        int cnt=query_user_request_cnt(username);
         _request.timestamp=cnt+1;
-        if (res.first){dbu.erase(uid,cnt);}
+        if (cnt){dbu.erase(uid,cnt);}
         cnt++;dbu.insert(uid,cnt);
         dbr.insert(uid,_request);
     }
@@ -34,19 +41,16 @@ namespace request_database
         return db_pending.find_all((trid*PW+day)%mod);
     }
 
-    int query_user_request_cnt(string username)
-    {
-        return dbu.findone(_hash(username)).second;
-    }
-    pair<bool,request> refund(int timestamp,string username)
+    pair<int,request> refund(int timestamp,string username)
     {
         long long uid=_hash(username);
         request _temp=request();_temp.timestamp=timestamp;
         request _request=dbr.find_value(uid,_temp);
-        if (_request.status!=1){return make_pair(0,_request);}
+        if (_request.status==2){return make_pair(-1,_request);}
+        int temp=_request.status;
         _request.status=2;
         dbr.erase(uid,_temp);dbr.insert(uid,_request);
-        return make_pair(1,_request);
+        return make_pair(temp,_request);
     }
     void succeed(int timestamp,long long uid)
     {

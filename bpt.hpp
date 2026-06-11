@@ -441,7 +441,7 @@ class BPT
                 u=p.child[0];
                 for (int i=1;i<p.cnt;i++)
                 {
-                    if (p.val[i]<key)
+                    if (p.val[i]<=key)
                     {
                         u=p.child[i];
                     }

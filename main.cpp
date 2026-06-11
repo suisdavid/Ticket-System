@@ -575,6 +575,7 @@ namespace request_op
         if (user_database::login(username)==0||train_database::released(trainid)==0){response(-1);return;}
         long long sid=_hash(s),tid=_hash(t),trid=_hash(trainid);
         int l=train_database::get_station_id(trid,sid),r=train_database::get_station_id(trid,tid);
+        if (l==-1||r==-1||r<=l){response(-1);return;}
         train_station_map _train_station_map=train_database::query_train_station_map(trid,sid);
         pair<int,date>departure=_train_station_map.min_departure;
         int addition=day-departure.first;
@@ -587,15 +588,15 @@ namespace request_op
         if (seat>=num)
         {
             _request.status=1;
-            train_database::change_seat(trid,addition,l,r,-num);
             request_database::add(username,_request);
+            train_database::change_seat(trid,addition,l,r,-num);
             response();cout<<(long long)price*num<<endl;
         }
         else if (flag=="true")
         {
             _request.status=0;
-            request_database::add_pending(username,timestamp,_request);
             request_database::add(username,_request);
+            request_database::add_pending(username,timestamp,_request);
             response();cout<<"queue"<<endl;
         }
         else
@@ -621,10 +622,12 @@ namespace request_op
             if (param=="-u"){cin>>username;}
             else if (param=="-n"){cin>>n;}
         }
-        if (user_database::login(username)==0){response(-1);return;}
+        if (user_database::login(username)==0||n<=0){response(-1);return;}
         int cnt=request_database::query_user_request_cnt(username)-n+1;
-        pair<bool,request>rq=request_database::refund(cnt,username);
-        if (rq.first==0){response(-1);return;}
+        if (cnt<=0){response(-1);return;}
+        pair<int,request>rq=request_database::refund(cnt,username);
+        if (rq.first==-1){response(-1);return;}
+        if (rq.first==0){response(0);return;}
         request &_request=rq.second;
         int l=_request.l,r=_request.r,num=_request.num,day=_request.day;long long trid=_hash(_request.trainid);
         train_seat v=train_database::query_all_seats(trid,day);
@@ -721,12 +724,16 @@ int main()
         else if (op=="exit")
         {
             user_database::exit();
-            response();cout<<"bye"<<endl;
-            break;
+            response();cout<<"bye"<<endl<<endl;
+           // break;
         }
         else if (op=="clean")
         {
             clean();
+        }
+        else
+        {
+            break;
         }
     }
 }
