@@ -1,18 +1,18 @@
 #pragma once
 #include "main.hpp"
 #include "bpt.hpp"
-using std::string;
 using std::pair;
-using namespace::database;
+using std::string;
+using namespace ::database;
 namespace user_database
 {
-    database::BPT<user,109>db("database_user.out");
-    database::BPT<int,201>dbl("database_login.out");
+    database::BPT<user, 109> db("database_user.out");
+    database::BPT<int, 201> dbl("database_login.out");
     void add(user _user)
     {
         db.insert(_user.uid, _user);
     }
-    pair<bool,user> query(string userid)
+    pair<bool, user> query(string userid)
     {
         return db.findone(_hash(userid));
     }
@@ -22,10 +22,10 @@ namespace user_database
     }
     void del(string userid)
     {
-        pair<bool,user>u=db.findone(_hash(userid));
+        pair<bool, user> u = db.findone(_hash(userid));
         if (u.first)
         {
-            db.erase(_hash(userid),u.second);
+            db.erase(_hash(userid), u.second);
         }
     }
     bool empty()
@@ -38,14 +38,14 @@ namespace user_database
     }
     void add_login(string username)
     {
-        int value=1;
-        dbl.insert(_hash(username),value);
+        int value = 1;
+        dbl.insert(_hash(username), value);
     }
 
     void logout(string username)
     {
-        int value=1;
-        dbl.erase(_hash(username),value);
+        int value = 1;
+        dbl.erase(_hash(username), value);
     }
     void clear()
     {
