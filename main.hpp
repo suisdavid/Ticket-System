@@ -376,43 +376,44 @@ struct train_seat//400
 };
 
 typedef train_seat train_price;
-struct request//155
+struct request//159
 {
     char trainid[21],s[41],t[41];
     pair<int,date>departure,arrival;
-    int num,timestamp;//该用户的第几个request
+    int num,order;//该用户的第几个request
     int l,r,status;//0 pending ,1 success ,2 refunded
     int price,day;
-    request(string _trainid="",string _s="",string _t="",pair<int,date>_departure=pair<int,date>(),pair<int,date>_arrival=pair<int,date>(),int _num=0,int _price=0,int _l=0,int _r=0,int _day=0)
+    int timestamp;
+    request(string _trainid="",string _s="",string _t="",pair<int,date>_departure=pair<int,date>(),pair<int,date>_arrival=pair<int,date>(),int _num=0,int _price=0,int _l=0,int _r=0,int _day=0,int _timestamp=0)
     {
         charmake(trainid,_trainid);charmake(s,_s);charmake(t,_t);
         departure=_departure;arrival=_arrival;
         num=_num;price=_price;
-        l=_l;r=_r;day=_day;
+        l=_l;r=_r;day=_day;timestamp=_timestamp;
     }
     bool const operator <(const request &rhs) const
     {
-        return timestamp<rhs.timestamp;
+        return order<rhs.order;
     }
     bool const operator ==(const request &rhs) const
     {
-        return timestamp==rhs.timestamp;
+        return order==rhs.order;
     }
     bool const operator !=(const request &rhs) const
     {
-        return timestamp!=rhs.timestamp;
+        return order!=rhs.order;
     }
     bool const operator >(const request &rhs) const
     {
-        return timestamp>rhs.timestamp;
+        return order>rhs.order;
     }
     bool const operator >=(const request &rhs) const
     {
-        return timestamp>=rhs.timestamp;
+        return order>=rhs.order;
     }
     bool const operator <=(const request &rhs) const
     {
-        return timestamp<=rhs.timestamp;
+        return order<=rhs.order;
     }
 };
 

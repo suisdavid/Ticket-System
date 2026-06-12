@@ -583,7 +583,7 @@ namespace request_op
         pair<int,date>arrival=train_database::query_train_station_map(trid,tid).min_arrival;
         departure.first+=addition;arrival.first+=addition;
         int seat=train_database::query_seat(trid,addition,l,r),price=train_database::query_price(trid,l,r);
-        request _request(trainid,s,t,departure,arrival,num,price,l,r,addition);
+        request _request(trainid,s,t,departure,arrival,num,price,l,r,addition,timestamp);
         if (seat>=num)
         {
             _request.status=1;
@@ -595,7 +595,7 @@ namespace request_op
         {
             _request.status=0;
             request_database::add(username,_request);
-            request_database::add_pending(username,timestamp,_request);
+            request_database::add_pending(username,_request);
             response();cout<<"queue"<<endl;
         }
         else
